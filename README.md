@@ -1,0 +1,4 @@
+- post github
+- define game
+- create todo
+- improve movement physic
