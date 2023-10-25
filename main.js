@@ -1,11 +1,15 @@
 // Board
 const BOARD_WIDTH = 360;
 const BOARD_HEIGHT = 640;
+const TILE_WIDTH = 40;
+const TILE_HEIGHT = 40;
+const GRID_WIDTH = 9;
+const GRID_HEIGHT = 16;
 
 // Character
 const CHARACTER_WIDTH = 50;
 const CHARACTER_HEIGHT = 50;
-const CHARACTER_SPEED = 2.5;
+const CHARACTER_SPEED = 5;
 const MOVE_DENSITY = 10;
 
 class Player {
@@ -43,32 +47,51 @@ function configureBoard() {
   board.width = BOARD_WIDTH;
   board.height = BOARD_HEIGHT;
   context = board.getContext("2d");
-  context.fillStyle = "black";
+}
+
+function drawLevel() {
+  context.fillStyle = "gray";
   context.fillRect(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
+
+  const level = [
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 0, 0, 0, 0, 0, 1, 0],
+    [0, 1, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0, 0],
+  ];
+
+  for (let i = 0; i < level.length; i++) {
+    for (let j = 0; j < level[i].length; j++) {
+      context.fillStyle = "red";
+      const x = j * TILE_WIDTH;
+      const y = i * TILE_HEIGHT;
+
+      if (level[i][j] === 1) {
+        context.fillRect(x, y, TILE_WIDTH, TILE_HEIGHT);
+      }
+    }
+  }
 }
 
 function drawCharacter() {
-  context.fillStyle = "red";
+  context.fillStyle = "yellow";
 
-  // if (player.steps >= 20) {
-  //   player.isRunning = true;
-  //   player.isWalking = false;
-  //   player.isIdle = false;
-  // } else if (player.steps > 0) {
-  //   player.isRunning = false;
-  //   player.isWalking = true;
-  //   player.isIdle = false;
-  // } else {
-  //   player.isRunning = false;
-  //   player.isWalking = false;
-  //   player.isIdle = true;
-  // }
-
-  // TODO: add lazy movement
   player.velocity.y = 0;
   player.velocity.x = 0;
 
-  const inertia = Math.min(player.steps / MOVE_DENSITY, 2);
+  const inertia = Math.min(player.steps / MOVE_DENSITY, 1);
 
   let speed = CHARACTER_SPEED * inertia;
 
@@ -152,6 +175,7 @@ function startGame() {
 
 function loop() {
   clearContext();
+  drawLevel();
   drawCharacter();
   requestAnimationFrame(loop);
 }
